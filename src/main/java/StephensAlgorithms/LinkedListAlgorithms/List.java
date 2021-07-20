@@ -2,30 +2,57 @@ package StephensAlgorithms.LinkedListAlgorithms;
 
 public class List {
     private ListItem head;
-    private ListItem tail;
 
-    void addToFront(int data) {
+    public void addToFront(int data) {
+        ListItem a = new ListItem();
+        a.data = data;
+        if (head != null) {
+            a.next = head;
+        }
+        head = a;
+    }
+
+    public void addToBack(int data) {
         ListItem a = new ListItem();
         a.data = data;
         if (head == null) {
             head = a;
-            tail = a;
         } else {
-            a.next = head;
-            head = a;
+            ListItem top = this.head;
+            while (top.next != null) {
+                top = top.next;
+            }
+            top.next = a;
         }
+
     }
 
-    void addToBack(int data) {
+    public ListItem addToBackAndReturn(int data) {
         ListItem a = new ListItem();
         a.data = data;
-
-        if (tail == null) {
+        if (head == null) {
             head = a;
         } else {
-            tail.next = a;
+            ListItem top = this.head;
+            while (top.next != null) {
+                top = top.next;
+            }
+            top.next = a;
         }
-        tail = a;
+        return a;
+    }
+
+    void addCycleItemToBack(int data, ListItem cyclePoint) {
+        ListItem a = new ListItem();
+        a.data = data;
+        a.next = cyclePoint;
+
+        ListItem top = this.head;
+        while (top.next != null) {
+            top = top.next;
+        }
+        top.next = a;
+
     }
 
     public String printList() {
@@ -36,5 +63,26 @@ public class List {
             top = top.next;
         }
         return result.toString().trim();
+    }
+
+    public boolean loopCheckWithRabbitAndTurtle() {
+        ListItem rabbit = this.head;
+        ListItem turtle = this.head;
+        while (true) {
+            if (rabbit.next != null) {
+                turtle = turtle.next;
+                rabbit = rabbit.next;
+                if (rabbit.next != null) {
+                    rabbit = rabbit.next;
+                } else {
+                    return false;
+                }
+                if (turtle == rabbit) {
+                    return true;
+                }
+            } else {
+                return false;
+            }
+        }
     }
 }
